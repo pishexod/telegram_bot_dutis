@@ -4,7 +4,7 @@
   "main": "bot_dep.js",
   "scripts": {
     "start": "node bot_dep.js",
-    "dev": "nodemon bot_dep.js"
+    "dev": "nodemon bot_dep.js  "
   },
   "keywords": [],
   "author": "Pishexod",
