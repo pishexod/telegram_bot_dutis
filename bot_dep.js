@@ -1,8 +1,13 @@
 
-const TelegramBot = require('node-telegram-bot-api')
+const{
+    Telegraf
+} = require('telegraf');
+
+require('dotenv').config()
+
+    const bot = new Telegraf(process.env.BOT_TOKEN)
 const fs = require('fs')
-const token = '5502505923:AAFOqf5wABh0U5xLVKisS_WMF0bY6bpFvV8'
-const bot = new TelegramBot(token, {polling: true})
+
 let filename = './duty.xlsx';
 var Excel = require('exceljs');
 var workbook_new = new Excel.Workbook();
@@ -11,14 +16,11 @@ let listJson = {
     table: []
 }
 
-
-bot.onText(/\/старт/, msg => {
-    bot.sendMessage(msg.chat.id, 'Я можу сказати хто йде їбашити як чорт в наряді')
+bot.start( (ctx) => ctx.reply( 'Я можу сказати хто йде їбашити як чорт в наряді'))
+bot.command('doc', (ctx)=>{
+    ctx.replyWithDocument({source:"./duty.xlsx"})
 })
-bot.onText(/\/документ/, msg => {
-    bot.sendDocument(msg.chat.id, './duty.xlsx')
-})
-bot.onText(/\/наряд/, msg => {
+bot.command('duty', (ctx) => {
     let workbook = XLSX.readFile(filename)
     let worksheet = workbook.Sheets[workbook.SheetNames[0]]
     for (let i = 2; i < 7; i++) {
@@ -32,7 +34,7 @@ bot.onText(/\/наряд/, msg => {
     let minCount = Math.min(listJson.table[0].coundOfDuty, listJson.table[1].coundOfDuty, listJson.table[2].coundOfDuty, listJson.table[3].coundOfDuty, listJson.table[4].coundOfDuty)
     for (let i = 0; i < listJson.table.length; i++) {
         if (listJson.table[i].coundOfDuty === minCount) {
-            bot.sendMessage(msg.chat.id, 'Йде їбашити курсант ' + listJson.table[i].name + ', кількість нарядів : ' + listJson.table[i].coundOfDuty);
+            ctx.reply( 'Йде їбашити курсант ' + listJson.table[i].name + ', кількість нарядів : ' + listJson.table[i].coundOfDuty);
             listJson.table[i].coundOfDuty += 1
             workbook_new.xlsx.readFile('./duty.xlsx')
                 .then(function () {
@@ -46,6 +48,8 @@ bot.onText(/\/наряд/, msg => {
         }
     }
 })
-bot.onText(/\/doc2/, msg => {
-})
-module.exports = bot;
+bot.launch()
+
+
+process.once('SIGINT', ()=>bot.stop('SIGINT'))
+process.once('SIGTERM', ()=>bot.stop('SIGTERM'))
