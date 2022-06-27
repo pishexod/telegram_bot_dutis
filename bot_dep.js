@@ -1,3 +1,4 @@
+
 const TelegramBot = require('node-telegram-bot-api')
 const fs = require('fs')
 const token = '5502505923:AAFOqf5wABh0U5xLVKisS_WMF0bY6bpFvV8'
@@ -47,3 +48,4 @@ bot.onText(/\/наряд/, msg => {
 })
 bot.onText(/\/doc2/, msg => {
 })
+module.exports = bot;
