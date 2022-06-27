@@ -1,14 +1,13 @@
 {
-  "name": "untitled2",
+  "name": "bot",
   "version": "1.0.0",
-  "description": "",
   "main": "bot_dep.js",
   "scripts": {
     "start": "node bot_dep.js",
     "dev": "nodemon bot_dep.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Pishexod",
   "license": "ISC",
   "dependencies": {
     "await": "^0.2.6",
@@ -20,5 +19,15 @@
     "telegraf": "^4.8.3",
     "xlsx": "^0.18.5",
     "xml2js": "^0.4.23"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pishexod/telegram_bot_dutis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pishexod/telegram_bot_dutis/issues"
+  },
+  "homepage": "https://github.com/pishexod/telegram_bot_dutis#readme",
+  "description": ""
 }
