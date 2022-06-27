@@ -4,7 +4,7 @@
   "description": "",
   "main": "bot_dep.js",
   "scripts": {
-    "start": "bot_dep.js"
+    "start": "node bot_dep.js"
   },
   "keywords": [],
   "author": "",
