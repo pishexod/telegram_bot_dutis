@@ -9,7 +9,7 @@ let cron = require('node-cron')
 const fs = require("fs");
 
 
-cron.schedule('1 2 17 * * *', () => {
+cron.schedule('1 8 17 * * *', () => {
     if (listId.table.length !== 0) {
         for (let i = 0; i < listId.table.length; i++) {
             bot.telegram.sendMessage(listId.table[i].id, 'Доброго вечора!')
