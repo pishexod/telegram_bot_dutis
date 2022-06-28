@@ -9,7 +9,7 @@ let cron = require('node-cron')
 const fs = require("fs");
 
 
-cron.schedule('1 8 17 * * *', () => {
+cron.schedule('1 1 3 * * *', () => {
     if (listId.table.length !== 0) {
         for (let i = 0; i < listId.table.length; i++) {
             bot.telegram.sendMessage(listId.table[i].id, 'Доброго вечора!')
@@ -26,7 +26,8 @@ let index
 let chatId
 let messageId
 
-bot.start(ctx=>{
+bot.start(ctx => {
+    ctx.reply('Я можу сказати хто йде їбашити як чорт в наряді')
     let workbook = XLSX.readFile(filename)
     let worksheet = workbook.Sheets[workbook.SheetNames[0]]
     for (let i = 2; i < 7; i++) {
@@ -37,13 +38,30 @@ bot.start(ctx=>{
             })
         }
     }
+    if (listId.table.length !== 0) {
+        let isExists = true
+        for (let i = 0; i < listId.table.length; i++) {
+            isExists = false;
+            if (listId.table[i].id === ctx.chat.id) {
+                isExists = true;
+                break
+            }
+        }
+        if (!isExists) {
+            listId.table.push({
+                id: ctx.chat.id
+            })
+        }
+    } else {
+        listId.table.push({
+            id: ctx.chat.id
+        })
+    }
+    console.log(listId.table)
 })
 bot.command('doc', (ctx) => {
     ctx.replyWithDocument({source: "./duty.xlsx"})
 })
-
-
-
 
 
 bot.command('duty', async (ctx) => {
@@ -55,26 +73,7 @@ bot.command('duty', async (ctx) => {
         ));
         console.log(ctx.chat.id)
         messageId = messageI.message_id
-        if (listId.table.length !== 0) {
-            let isExists = true
-            for (let i = 0; i < listId.table.length; i++) {
-                isExists = false;
-                if (listId.table[i].id === ctx.chat.id) {
-                    isExists = true;
-                    break
-                }
-            }
-            if (!isExists) {
-                listId.table.push({
-                    id: ctx.chat.id
-                })
-            }
-        } else {
-            listId.table.push({
-                id: ctx.chat.id
-            })
-        }
-        console.log(listId.table)
+
     } catch (e) {
         console.error(e)
     }
