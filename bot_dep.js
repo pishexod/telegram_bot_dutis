@@ -16,7 +16,7 @@ cron.schedule('1 1 3 * * *', () => {
         }
     }
 })
-cron.schedule('1 4 18 * * *', () =>{
+cron.schedule('1 10 18 * * *', () =>{
     if (listId.table.length !== 0) {
         for (let i = 0; i < listId.table.length; i++) {
             bot.telegram.sendMessage(listId.table[i].id, 'Вимкніть світло!')
