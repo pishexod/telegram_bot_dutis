@@ -12,7 +12,21 @@ const fs = require("fs");
 cron.schedule('1 1 3 * * *', () => {
     if (listId.table.length !== 0) {
         for (let i = 0; i < listId.table.length; i++) {
-            bot.telegram.sendMessage(listId.table[i].id, 'Доброго вечора!')
+            bot.telegram.sendMessage(listId.table[i].id, 'Доброго ранку!')
+        }
+    }
+})
+cron.schedule('1 1 18 * * *', () =>{
+    if (listId.table.length !== 0) {
+        for (let i = 0; i < listId.table.length; i++) {
+            bot.telegram.sendMessage(listId.table[i].id, 'Вимкніть світло!')
+        }
+    }
+})
+cron.schedule('1 1 19 * * *', () =>{
+    if (listId.table.length !== 0) {
+        for (let i = 0; i < listId.table.length; i++) {
+            bot.telegram.sendMessage(listId.table[i].id, 'На добраніч!')
         }
     }
 })
