@@ -66,11 +66,11 @@ bot.command('doc', (ctx) => {
 bot.command('duty', async (ctx) => {
     obj.findMin()
     try {
-        chatId = ctx.chat.id
         let messageI = await ctx.reply('Йде їбашити курсант ' + listJson.table[index - 2].name + ', кількість нарядів : ' + listJson.table[index - 2].coundOfDuty, Markup.inlineKeyboard(
             [Markup.button.callback('Помилувати', 'btn_1'), Markup.button.callback('Підтвердити', 'btn_2')],
         ));
         console.log(ctx.chat.id)
+        chatId = ctx.chat.id
         messageId = messageI.message_id
 
     } catch (e) {
