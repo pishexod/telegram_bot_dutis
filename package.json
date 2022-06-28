@@ -14,13 +14,14 @@
     "dotenv": "^16.0.1",
     "exceljs": "^4.3.0",
     "micro-bot": "^2.5.3",
+    "node-cron": "^3.0.1",
     "node-telegram-bot-api": "^0.57.0",
     "nodemon": "^2.0.18",
+    "shelljs": "^0.8.5",
     "telegraf": "^4.8.3",
     "xlsx": "^0.18.5",
     "xml2js": "^0.4.23"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pishexod/telegram_bot_dutis.git"

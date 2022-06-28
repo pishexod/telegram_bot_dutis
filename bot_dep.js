@@ -4,10 +4,23 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 
 let filename = './duty.xlsx';
 let Excel = require('exceljs');
-let workbook_new = new Excel.Workbook();
 let XLSX = require('xlsx')
-let listJson = {table: []}
+let cron = require('node-cron')
+let shell = require('shelljs')
+const fs = require("fs");
 
+
+cron.schedule('1 0 17 * * *', () => {
+    if (listId.table.length !== 0) {
+        for (let i = 0; i < listId.table.length; i++) {
+            bot.telegram.sendMessage(listId.table[i].id, 'Доброго вечора!')
+        }
+    }
+})
+
+let workbook_new = new Excel.Workbook();
+let listJson = {table: []}
+let listId = {table: []}
 
 let name = ''
 let index
@@ -18,6 +31,7 @@ bot.start((ctx) => ctx.reply('Я можу сказати хто йде їбаш�
 bot.command('doc', (ctx) => {
     ctx.replyWithDocument({source: "./duty.xlsx"})
 })
+
 
 let workbook = XLSX.readFile(filename)
 let worksheet = workbook.Sheets[workbook.SheetNames[0]]
@@ -30,6 +44,7 @@ for (let i = 2; i < 7; i++) {
     }
 }
 
+
 bot.command('duty', async (ctx) => {
     obj.findMin()
     try {
@@ -37,8 +52,28 @@ bot.command('duty', async (ctx) => {
         let messageI = await ctx.reply('Йде їбашити курсант ' + listJson.table[index - 2].name + ', кількість нарядів : ' + listJson.table[index - 2].coundOfDuty, Markup.inlineKeyboard(
             [Markup.button.callback('Помилувати', 'btn_1'), Markup.button.callback('Підтвердити', 'btn_2')],
         ));
+        console.log(ctx.chat.id)
         messageId = messageI.message_id
-        // bot.telegram.deleteMessage(chatId,messageI.message_id)
+        if (listId.table.length !== 0) {
+            let isExists = true
+            for (let i = 0; i < listId.table.length; i++) {
+                isExists = false;
+                if (listId.table[i].id === ctx.chat.id) {
+                    isExists = true;
+                    break
+                }
+            }
+            if (!isExists) {
+                listId.table.push({
+                    id: ctx.chat.id
+                })
+            }
+        } else {
+            listId.table.push({
+                id: ctx.chat.id
+            })
+        }
+        console.log(listId.table)
     } catch (e) {
         console.error(e)
     }
