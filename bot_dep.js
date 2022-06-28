@@ -6,7 +6,6 @@ let filename = './duty.xlsx';
 let Excel = require('exceljs');
 let XLSX = require('xlsx')
 let cron = require('node-cron')
-let shell = require('shelljs')
 const fs = require("fs");
 
 
@@ -27,22 +26,24 @@ let index
 let chatId
 let messageId
 
-bot.start((ctx) => ctx.reply('Я можу сказати хто йде їбашити як чорт в наряді'))
+bot.start(ctx=>{
+    let workbook = XLSX.readFile(filename)
+    let worksheet = workbook.Sheets[workbook.SheetNames[0]]
+    for (let i = 2; i < 7; i++) {
+        if (i !== 1) {
+            listJson.table.push({
+                name: worksheet[`${String.fromCharCode(65)}${i}`].v,
+                coundOfDuty: parseInt(worksheet[`${String.fromCharCode(66)}${i}`].v),
+            })
+        }
+    }
+})
 bot.command('doc', (ctx) => {
     ctx.replyWithDocument({source: "./duty.xlsx"})
 })
 
 
-let workbook = XLSX.readFile(filename)
-let worksheet = workbook.Sheets[workbook.SheetNames[0]]
-for (let i = 2; i < 7; i++) {
-    if (i !== 1) {
-        listJson.table.push({
-            name: worksheet[`${String.fromCharCode(65)}${i}`].v,
-            coundOfDuty: parseInt(worksheet[`${String.fromCharCode(66)}${i}`].v),
-        })
-    }
-}
+
 
 
 bot.command('duty', async (ctx) => {
