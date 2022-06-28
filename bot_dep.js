@@ -39,38 +39,12 @@ let name = ''
 let index
 let chatId
 let messageId
+let workbook = XLSX.readFile(filename)
+let worksheet = workbook.Sheets[workbook.SheetNames[0]]
 
-bot.start(ctx => {
-    let workbook = XLSX.readFile(filename)
-    let worksheet = workbook.Sheets[workbook.SheetNames[0]]
-    for (let i = 2; i < 7; i++) {
-        if (i !== 1) {
-            listJson.table.push({
-                name: worksheet[`${String.fromCharCode(65)}${i}`].v,
-                coundOfDuty: parseInt(worksheet[`${String.fromCharCode(66)}${i}`].v),
-            })
-        }
-    }
-    if (listId.table.length !== 0) {
-        let isExists = true
-        for (let i = 0; i < listId.table.length; i++) {
-            isExists = false;
-            if (listId.table[i].id === ctx.chat.id) {
-                isExists = true;
-                break
-            }
-        }
-        if (!isExists) {
-            listId.table.push({
-                id: ctx.chat.id
-            })
-        }
-    } else {
-        listId.table.push({
-            id: ctx.chat.id
-        })
-    }
-    console.log(listId.table)
+bot.start(async (ctx) => {
+    await ctx.reply('Я можу сказати, хто йде їбашити в наряд')
+    await obj.onlyStart()
 })
 bot.command('doc', (ctx) => {
     ctx.replyWithDocument({source: "./duty.xlsx"})
@@ -93,6 +67,17 @@ bot.command('duty', async (ctx) => {
 })
 
 let obj = {
+    async onlyStart() {
+        for (let i = 2; i < 7; i++) {
+            if (i !== 1) {
+                listJson.table.push({
+                    name: worksheet[`${String.fromCharCode(65)}${i}`].v,
+                    coundOfDuty: parseInt(worksheet[`${String.fromCharCode(66)}${i}`].v),
+                })
+            }
+        }
+
+    },
     findMin() {
         let minCount = Math.min(listJson.table[0].coundOfDuty, listJson.table[1].coundOfDuty, listJson.table[2].coundOfDuty, listJson.table[3].coundOfDuty, listJson.table[4].coundOfDuty,)
         for (let i = 0; i < listJson.table.length; i++) {

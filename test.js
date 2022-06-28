@@ -10,13 +10,9 @@
 // const fs = require("fs");
 //
 //
-// cron.schedule('1 0 17 * * *', () => {
-//     if (listId.table.length !== 0) {
-//         for (let i = 0; i < listId.table.length; i++) {
-//             bot.telegram.sendMessage(listId.table[i].id, 'Доброго вечора!')
-//         }
-//     }
-// })
+// // cron.schedule('1 45 * * * *', ()=>{
+// //     bot.telegram.sendMessage(chatId, )
+// // })
 //
 // let workbook_new = new Excel.Workbook();
 // let listJson = {table: []}
@@ -44,7 +40,6 @@
 //     }
 // }
 //
-//
 // bot.command('duty', async (ctx) => {
 //     obj.findMin()
 //     try {
@@ -55,25 +50,22 @@
 //         console.log(ctx.chat.id)
 //         messageId = messageI.message_id
 //         if (listId.table.length !== 0) {
-//             let isExists = true
+//           let isExists = true
 //             for (let i = 0; i < listId.table.length; i++) {
-//                 isExists = false;
-//                 if (listId.table[i].id === ctx.chat.id) {
+//                 isExists=false;
+//                 if(listId.table[i].id === ctx.chat.id){
 //                     isExists = true;
 //                     break
 //                 }
 //             }
-//             if (!isExists) {
-//                 listId.table.push({
-//                     id: ctx.chat.id
-//                 })
+//             if(!isExists){
+//                listId.table.push(ctx.chat.)
 //             }
 //         } else {
 //             listId.table.push({
 //                 id: ctx.chat.id
 //             })
 //         }
-//         console.log(listId.table)
 //     } catch (e) {
 //         console.error(e)
 //     }
