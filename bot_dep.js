@@ -27,7 +27,6 @@ let chatId
 let messageId
 
 bot.start(ctx => {
-    ctx.reply('Я можу сказати хто йде їбашити як чорт в наряді')
     let workbook = XLSX.readFile(filename)
     let worksheet = workbook.Sheets[workbook.SheetNames[0]]
     for (let i = 2; i < 7; i++) {
