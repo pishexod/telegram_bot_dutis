@@ -68,51 +68,68 @@ bot.command('duty', async (ctx) => {
 
 let obj = {
     async onlyStart() {
-        for (let i = 2; i < 7; i++) {
-            if (i !== 1) {
-                listJson.table.push({
-                    name: worksheet[`${String.fromCharCode(65)}${i}`].v,
-                    coundOfDuty: parseInt(worksheet[`${String.fromCharCode(66)}${i}`].v),
-                })
+        try {
+            for (let i = 2; i < 7; i++) {
+                if (i !== 1) {
+                    listJson.table.push({
+                        name: worksheet[`${String.fromCharCode(65)}${i}`].v,
+                        coundOfDuty: parseInt(worksheet[`${String.fromCharCode(66)}${i}`].v),
+                    })
+                }
             }
+        } catch (e) {
+            console.error(e)
         }
-
+        console.log(listJson.table)
     },
     findMin() {
-        let minCount = Math.min(listJson.table[0].coundOfDuty, listJson.table[1].coundOfDuty, listJson.table[2].coundOfDuty, listJson.table[3].coundOfDuty, listJson.table[4].coundOfDuty,)
-        for (let i = 0; i < listJson.table.length; i++) {
-            if (listJson.table[i].coundOfDuty === minCount) {
-                name = listJson.table[i].name
-                index = i + 2
-                break
+        try {
+
+            let minCount = Math.min(listJson.table[0].coundOfDuty, listJson.table[1].coundOfDuty, listJson.table[2].coundOfDuty, listJson.table[3].coundOfDuty, listJson.table[4].coundOfDuty,)
+            for (let i = 0; i < listJson.table.length; i++) {
+                if (listJson.table[i].coundOfDuty === minCount) {
+                    name = listJson.table[i].name
+                    index = i + 2
+                    break
+                }
             }
+        } catch (e) {
+            console.error(e)
         }
 
     },
     async unable() {
-        bot.telegram.deleteMessage(chatId, messageId)
-        if (index < listJson.table.length + 1) {
-            index += 1;
-        } else if (index === listJson.table.length + 1) {
-            index = 2;
+        try {
+            bot.telegram.deleteMessage(chatId, messageId)
+            if (index < listJson.table.length + 1) {
+                index += 1;
+            } else if (index === listJson.table.length + 1) {
+                index = 2;
+            }
+            let message = await bot.telegram.sendMessage(chatId, 'Йде їбашити курсант ' + listJson.table[index - 2].name + ', кількість нарядів : ' + listJson.table[index - 2].coundOfDuty, Markup.inlineKeyboard(
+                [Markup.button.callback('Помилувати', 'btn_1'), Markup.button.callback('Підтвердити', 'btn_2')]
+            ))
+            messageId = message.message_id
+        } catch (e) {
+            console.error(e)
         }
-        let message = await bot.telegram.sendMessage(chatId, 'Йде їбашити курсант ' + listJson.table[index - 2].name + ', кількість нарядів : ' + listJson.table[index - 2].coundOfDuty, Markup.inlineKeyboard(
-            [Markup.button.callback('Помилувати', 'btn_1'), Markup.button.callback('Підтвердити', 'btn_2')]
-        ))
-        messageId = message.message_id
     },
     async able(i) {
-        bot.telegram.deleteMessage(chatId, messageId)
-        bot.telegram.sendMessage(chatId, 'Йде їбашити курсант ' + listJson.table[i].name + ', було нарядів : ' + listJson.table[i].coundOfDuty + ', а стане : ' + (listJson.table[i].coundOfDuty + 1))
-        listJson.table[i].coundOfDuty += 1
-        workbook_new.xlsx.readFile('./duty.xlsx')
-            .then(function () {
-                var worksheet = workbook_new.getWorksheet(1);
-                var row = worksheet.getRow(i + 2);
-                row.getCell(2).value = listJson.table[i].coundOfDuty; // A5's value set to 5
-                row.commit();
-                return workbook_new.xlsx.writeFile('duty.xlsx');
-            })
+        try {
+            bot.telegram.deleteMessage(chatId, messageId)
+            bot.telegram.sendMessage(chatId, 'Йде їбашити курсант ' + listJson.table[i].name + ', було нарядів : ' + listJson.table[i].coundOfDuty + ', а стане : ' + (listJson.table[i].coundOfDuty + 1))
+            listJson.table[i].coundOfDuty += 1
+            workbook_new.xlsx.readFile('./duty.xlsx')
+                .then(function () {
+                    var worksheet = workbook_new.getWorksheet(1);
+                    var row = worksheet.getRow(i + 2);
+                    row.getCell(2).value = listJson.table[i].coundOfDuty; // A5's value set to 5
+                    row.commit();
+                    return workbook_new.xlsx.writeFile('duty.xlsx');
+                })
+        } catch (e) {
+            console.error(e)
+        }
     }
 }
 
